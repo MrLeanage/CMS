@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.orderManagement.Create">
+    <children>
+        <Label layoutX="14.0" layoutY="63.0" text="Menu Name :" />
+        <TextField fx:id="menuIDTextField" layoutX="154.0" layoutY="63.0" prefHeight="25.0" prefWidth="95.0" />
+        <Label fx:id="menuIDLabel" layoutX="154.0" layoutY="88.0" prefHeight="17.0" prefWidth="340.0" textFill="RED" />
+        <Label layoutX="14.0" layoutY="275.0" text="Order Notes :"  />
+        <TextArea fx:id="noteTextArea" layoutX="154.0" layoutY="275.0" prefHeight="71.0" prefWidth="200.0"  />
+        <Button layoutX="178.0" layoutY="63.0" mnemonicParsing="false" onAction="#browseMenu" prefWidth="95.0" text="Browse Menu"  />
+        <Label layoutX="14.0" layoutY="162.0" text="Quantity :"  />
+        <Spinner fx:id="quantitySpinner" layoutX="154.0" layoutY="162.0" prefWidth="200.0"  />
+        <Label layoutX="14.0" layoutY="117.0" text="Customer Name :"  />
+        <TextField fx:id="customerNameTextField" layoutX="154.0" layoutY="113.0" prefHeight="25.0" prefWidth="200.0"  />
+        <Label fx:id="customerNameLabel" layoutX="380.0" layoutY="386.0" prefHeight="17.0" prefWidth="340.0"  textFill="RED" />
+        <Label layoutX="14.0" layoutY="219.0" text="Delivery Status :" />
+        <Label fx:id="noteLabel" layoutX="154.0" layoutY="138.0" prefHeight="17.0" prefWidth="340.0"  textFill="RED"  />
+        <ChoiceBox fx:id="statusChoiceBox" layoutX="154.0" layoutY="219.0" prefWidth="200.0"  />
+      <Label layoutX="267.0" layoutY="6.0" text="Add Order">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+        <JFXButton fx:id="addButton" layoutX="254.0" layoutY="388.0" onAction="#addOrder" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ffef00;" text="ADD" AnchorPane.rightAnchor="315.0" AnchorPane.topAnchor="388.0">
+            <font>
+                <Font name="Calibri Bold" size="13.0" />
+            </font>
+        </JFXButton>
+    </children>
+</AnchorPane>
