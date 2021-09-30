@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -64,15 +65,22 @@
             <Insets left="5.0" right="5.0" />
          </opaqueInsets>
       </HBox>
-      <Label fx:id="supplierIDLabel" layoutX="30.0" layoutY="467.0" text="Selected Supplier ID :" visible="false" AnchorPane.leftAnchor="30.0" />
-      <TextField fx:id="supplierIDTextBox" editable="false" layoutX="150.0" layoutY="464.0" prefHeight="25.0" prefWidth="222.0" visible="false" />
-      <Label fx:id="supplierNameLabel" layoutX="382.0" layoutY="467.0" text="Supplier Name:" visible="false" />
-      <TextField fx:id="supplierNameTextBox" editable="false" layoutX="484.0" layoutY="462.0" prefHeight="25.0" prefWidth="236.0" visible="false" />
-      <JFXButton fx:id="printSupplierButton" layoutX="223.0" layoutY="498.0" onAction="#getSupplierReport" prefHeight="30.0" prefWidth="222.0" style="-fx-background-color: #01579b;" text="PRINT SUPPLIER" textFill="WHITE" visible="false" AnchorPane.rightAnchor="376.0" AnchorPane.topAnchor="502.0">
+      <Label fx:id="supplierIDLabel" layoutX="30.0" layoutY="467.0" text="Selected Supplier ID :" AnchorPane.leftAnchor="30.0" />
+      <TextField fx:id="supplierIDTextBox" editable="false" layoutX="150.0" layoutY="464.0" prefHeight="25.0" prefWidth="222.0" />
+      <Label fx:id="supplierNameLabel" layoutX="382.0" layoutY="467.0" text="Supplier Name:" />
+      <TextField fx:id="supplierNameTextBox" editable="false" layoutX="484.0" layoutY="462.0" prefHeight="25.0" prefWidth="236.0" />
+      <JFXButton fx:id="printSpecificSupplierButton" layoutX="223.0" layoutY="498.0" onAction="#getSpecificSupplierReport" prefHeight="30.0" prefWidth="222.0" style="-fx-background-color: #01579b;" text="PRINT SPECIFIC SUPPLIER" textFill="WHITE" AnchorPane.rightAnchor="376.0" AnchorPane.topAnchor="502.0">
          <font>
             <Font name="Calibri Bold" size="13.0" />
          </font>
       </JFXButton>
-      <Label fx:id="supplierReportLabel" layoutX="37.0" layoutY="505.0" text="Supplier Report: :" visible="false" AnchorPane.leftAnchor="30.0" />
+      <Label fx:id="supplierReportLabel" layoutX="37.0" layoutY="505.0" text="Specific Supplier :" AnchorPane.leftAnchor="30.0" />
+      <Label fx:id="supplierReportLabel1" layoutX="316.0" layoutY="36.0" text="Supplier Report: :" />
+      <ChoiceBox fx:id="supplierTypeChoiceBox" layoutX="409.0" layoutY="32.0" prefWidth="150.0" />
+      <JFXButton layoutX="564.0" layoutY="29.0" onAction="#getSupplierReport" prefHeight="30.0" prefWidth="157.0" style="-fx-background-color: #01579b;" text="PRINT SUPPLIER REPORT" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
     </children>
 </AnchorPane>

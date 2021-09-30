@@ -85,6 +85,9 @@ public class OrderDetailController implements Initializable {
     @FXML
     private Label orderQuotationLabel;
 
+    @FXML
+    private ChoiceBox<String> deliveryStatusChoiceBox;
+
 
 
     public static Menu selectedMenu = null;
@@ -96,6 +99,9 @@ public class OrderDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadData();
+        ObservableList<String> typeList = FXCollections.observableArrayList("Pending", "Processing", "Delivered");
+        deliveryStatusChoiceBox.setValue(typeList.get(0));
+        deliveryStatusChoiceBox.setItems(typeList);
     }
 
     public void setInitData(){
@@ -238,5 +244,11 @@ public class OrderDetailController implements Initializable {
             PrintReport printReport = new PrintReport();
             printReport.printOrderQuotation(selectedOrder);
         }
+    }
+
+    @FXML
+    private void getOrderDeliveryReport(ActionEvent event){
+        PrintReport printReport = new PrintReport();
+        printReport.printOrderDeliveryReport(deliveryStatusChoiceBox.getValue());
     }
 }

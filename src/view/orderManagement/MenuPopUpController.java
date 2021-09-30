@@ -174,8 +174,7 @@ public class MenuPopUpController implements Initializable {
             }
         } else
             AlertPopUp.selectRow("Menu to Add");
-    }
-
+    } 
     @FXML
     void setSelectedMenuDataToFields(MouseEvent event) {
         try {

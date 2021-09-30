@@ -73,7 +73,7 @@ public class UpdateSupplierController implements Initializable {
     }
 
     private void setInitData(){
-        ObservableList<String> supplierTypeList = FXCollections.observableArrayList("Raw Material", "Stationary");
+        ObservableList<String> supplierTypeList = FXCollections.observableArrayList("Raw Material", "Ready Made", "Raw & Ready Made");
         typeChoiceBox.setValue(supplierTypeList.get(0));
         typeChoiceBox.setItems(supplierTypeList);
 

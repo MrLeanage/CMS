@@ -11,7 +11,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JRViewer;
+import service.EmployeeService;
 import service.MenuService;
+import service.OrderService;
+import service.SupplierService;
 import utility.dbConnection.DBConnection;
 import utility.popUp.AlertPopUp;
 
@@ -23,37 +26,6 @@ import java.util.HashMap;
 
 public class PrintReport extends JFrame {
 
-  public void printCustomers() {
-//    CustomerService customerService = new CustomerService();
-//    ObservableList<Customer> customerObservableList = customerService.loadAllCustomerData();
-
-//    JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(customerObservableList);
-
-//    try {
-//      HashMap parameter = new HashMap();
-//      parameter.put("date", String.valueOf(LocalDate.now()));
-//      parameter.put("customerObservableList", jrBeanCollectionDataSource);
-//
-//      JasperDesign jd =
-//          JRXmlLoader.load(
-//              new File("").getAbsolutePath() + "/src/view/jasperReport/CustomerReport.jrxml");
-//      JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-//      JasperPrint JasperPrint = JasperFillManager.fillReport(jasperReport, parameter,  new JREmptyDataSource());
-//
-//      JRViewer viewer = new JRViewer(JasperPrint);
-//
-//
-//      // viewer.setOpaque(true);
-//      viewer.setVisible(true);
-//
-//      add(viewer);
-//      this.setSize(850, 800); // JFrame size
-//      this.setVisible(true);
-//
-//    } catch (JRException e) {
-//      e.printStackTrace();
-//    }
-  }
   public void printOrderQuotation(Order order){
     MenuService menuService = new MenuService();
     Menu menu = menuService.loadSpecificMenu(order.getoMenuID());
@@ -90,8 +62,49 @@ public class PrintReport extends JFrame {
       e.printStackTrace();
     }
   }
+  public void printOrderDeliveryReport(String deliveryStatus){
+    OrderService orderService = new OrderService();
+    ObservableList<Order> orderObservableList = orderService.loadAllOrderData();
 
-  public void printSupplierReport(Supplier supplier){
+    ObservableList<Order> sortedOrderObservableList =  FXCollections.observableArrayList();
+
+    for(Order order : orderObservableList){
+      if(order.getoStatus().equals(deliveryStatus)){
+        sortedOrderObservableList.add(order);
+      }
+    }
+    if(sortedOrderObservableList.size()!=0){
+      try {
+        JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(sortedOrderObservableList);
+        HashMap parameter = new HashMap();
+        parameter.put("orderList", jrBeanCollectionDataSource);
+        parameter.put("deliveryStatus", deliveryStatus.toUpperCase());
+
+        JasperDesign jd =
+                JRXmlLoader.load(
+                        new File("").getAbsolutePath() + "/src/view/jasperReport/OrderDeliveryInfo.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jd);
+        JasperPrint JasperPrint = JasperFillManager.fillReport(jasperReport, parameter,  new JREmptyDataSource());
+
+        JRViewer viewer = new JRViewer(JasperPrint);
+
+
+        // viewer.setOpaque(true);
+        viewer.setVisible(true);
+
+        add(viewer);
+        this.setSize(850, 800); // JFrame size
+        this.setVisible(true);
+
+      } catch (JRException e) {
+        e.printStackTrace();
+      }
+    }else{
+      AlertPopUp.noRecordFound(deliveryStatus);
+    }
+  }
+
+  public void printSpecificSupplierReport(Supplier supplier){
 
 
     try {
@@ -124,7 +137,50 @@ public class PrintReport extends JFrame {
       e.printStackTrace();
     }
   }
-  public void printEmployeeReport(Employee employee){
+
+  public void printSupplierReport(String supplierType){
+    SupplierService supplierService = new SupplierService();
+    ObservableList<Supplier> supplierObservableList = supplierService.loadAllSupplierData();
+
+    ObservableList<Supplier> sortedSupplierObservableList =  FXCollections.observableArrayList();
+
+    for(Supplier supplier : supplierObservableList){
+      if(supplier.getType().equals(supplierType)){
+        sortedSupplierObservableList.add(supplier);
+      }
+    }
+    if(sortedSupplierObservableList.size()!=0){
+      try {
+        JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(sortedSupplierObservableList);
+        HashMap parameter = new HashMap();
+        parameter.put("supplierList", jrBeanCollectionDataSource);
+        parameter.put("sType", supplierType.toUpperCase());
+
+        JasperDesign jd =
+                JRXmlLoader.load(
+                        new File("").getAbsolutePath() + "/src/view/jasperReport/MySuppliers.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jd);
+        JasperPrint JasperPrint = JasperFillManager.fillReport(jasperReport, parameter,  new JREmptyDataSource());
+
+        JRViewer viewer = new JRViewer(JasperPrint);
+
+
+        // viewer.setOpaque(true);
+        viewer.setVisible(true);
+
+        add(viewer);
+        this.setSize(850, 800); // JFrame size
+        this.setVisible(true);
+
+      } catch (JRException e) {
+        e.printStackTrace();
+      }
+    }else{
+      AlertPopUp.noRecordFound(supplierType);
+    }
+  }
+
+  public void printSpecificEmployeeReport(Employee employee){
 
 
     try {
@@ -153,6 +209,52 @@ public class PrintReport extends JFrame {
 
     } catch (JRException e) {
       e.printStackTrace();
+    }
+  }
+  public void printEmployeeReport(String employeeDesignation){
+    EmployeeService employeeService = new EmployeeService();
+    ObservableList<Employee> employeeObservableList = employeeService.loadAllEmployeeData();
+
+    ObservableList<Employee> sortedEmployeeObservableList =  FXCollections.observableArrayList();
+
+    if(employeeDesignation.equals("All")){
+      sortedEmployeeObservableList.addAll(employeeObservableList);
+    }else{
+      for(Employee employee : employeeObservableList){
+        if(employee.geteDesignation().equals(employeeDesignation)){
+          sortedEmployeeObservableList.add(employee);
+        }
+      }
+    }
+
+    if(sortedEmployeeObservableList.size()!=0){
+      try {
+        JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(sortedEmployeeObservableList);
+        HashMap parameter = new HashMap();
+        parameter.put("employeeList", jrBeanCollectionDataSource);
+        parameter.put("employeeDesignation", employeeDesignation.toUpperCase());
+
+        JasperDesign jd =
+                JRXmlLoader.load(
+                        new File("").getAbsolutePath() + "/src/view/jasperReport/EmployeeTeam.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jd);
+        JasperPrint JasperPrint = JasperFillManager.fillReport(jasperReport, parameter,  new JREmptyDataSource());
+
+        JRViewer viewer = new JRViewer(JasperPrint);
+
+
+        // viewer.setOpaque(true);
+        viewer.setVisible(true);
+
+        add(viewer);
+        this.setSize(850, 800); // JFrame size
+        this.setVisible(true);
+
+      } catch (JRException e) {
+        e.printStackTrace();
+      }
+    }else{
+      AlertPopUp.noRecordFound(employeeDesignation);
     }
   }
 

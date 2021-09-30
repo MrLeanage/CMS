@@ -2,6 +2,7 @@ package view.supplierManagement;
 
 import bean.*;
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -74,11 +75,13 @@ public class SupplerDetailController implements Initializable {
     private TextField supplierNameTextBox;
 
     @FXML
-    private JFXButton printSupplierButton;
+    private JFXButton printSpecificSupplierButton;
 
     @FXML
     private Label supplierReportLabel;
 
+    @FXML
+    private ChoiceBox<String> supplierTypeChoiceBox;
 
     public  static Supplier selectedSupplier;
 
@@ -87,6 +90,9 @@ public class SupplerDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setInitData();
+        ObservableList<String> typeList = FXCollections.observableArrayList("Raw Material", "Ready Made", "Raw & Ready Made");
+        supplierTypeChoiceBox.setValue(typeList.get(0));
+        supplierTypeChoiceBox.setItems(typeList);
     }
 
     public void setInitData(){
@@ -94,6 +100,7 @@ public class SupplerDetailController implements Initializable {
         searchTable();
         refreshTable = false;
         clearFields();
+
     }
 
     public void loadData(){
@@ -184,7 +191,7 @@ public class SupplerDetailController implements Initializable {
             supplierNameLabel.setVisible(true);
             supplierIDTextBox.setVisible(true);
             supplierNameTextBox.setVisible(true);
-            printSupplierButton.setVisible(true);
+            printSpecificSupplierButton.setVisible(true);
             supplierReportLabel.setVisible(true);
             addButton.setVisible(false);
             updateButton.setVisible(true);
@@ -216,17 +223,22 @@ public class SupplerDetailController implements Initializable {
         supplierNameLabel.setVisible(false);
         supplierIDTextBox.setVisible(false);
         supplierNameTextBox.setVisible(false);
-        printSupplierButton.setVisible(false);
+        printSpecificSupplierButton.setVisible(false);
         supplierReportLabel.setVisible(false);
     }
     public void setState(boolean refresh){
         refreshTable = refresh;
     }
     @FXML
-    private void getSupplierReport(ActionEvent event){
+    private void getSpecificSupplierReport(ActionEvent event){
         if(selectedSupplier != null){
             PrintReport printReport = new PrintReport();
-            printReport.printSupplierReport(selectedSupplier);
+            printReport.printSpecificSupplierReport(selectedSupplier);
         }
+    }
+    @FXML
+    private void getSupplierReport(ActionEvent event){
+        PrintReport printReport = new PrintReport();
+        printReport.printSupplierReport(supplierTypeChoiceBox.getValue());
     }
 }

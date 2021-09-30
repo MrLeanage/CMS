@@ -1,9 +1,8 @@
 package view.employeeManagement;
 
 import bean.Employee;
-import bean.User;
 import com.jfoenix.controls.JFXButton;
-import com.sun.xml.internal.bind.v2.model.nav.Navigator;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -18,18 +17,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import service.EmployeeService;
-import service.UserService;
-import utility.dataHandler.DataValidation;
 import utility.dataHandler.PrintReport;
 import utility.dataHandler.UtilityMethod;
-import utility.navigation.Navigation;
 import utility.popUp.AlertPopUp;
-import view.appHome.AppStageController;
-import view.appHome.Main;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -84,6 +77,9 @@ public class EmployeeDetailController implements Initializable {
     @FXML
     private TextField employeeNameTextBox;
 
+    @FXML
+    private ChoiceBox<String> employeeTypeChoiceBox;
+
 
     private static Employee selectedEmployee = null;
 
@@ -94,6 +90,7 @@ public class EmployeeDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadData();
+
     }
 
     public void setInitData(){
@@ -119,6 +116,17 @@ public class EmployeeDetailController implements Initializable {
         employeeTable.setItems(employeeObservableList);
 //        navigation
         searchTable();
+
+        ObservableList<String> designationList = FXCollections.observableArrayList();
+        for(Employee employee : employeeObservableList){
+            designationList.add(employee.geteDesignation());
+        }
+
+        ObservableList<String> sortedDesignationList = UtilityMethod.removeStringDuplicates(designationList);
+        sortedDesignationList.add("All");
+
+        employeeTypeChoiceBox.setValue(sortedDesignationList.get(0));
+        employeeTypeChoiceBox.setItems(sortedDesignationList);
     }
     private void setCreateStage(Stage stage) {
         EmployeeDetailController.createStage = stage;
@@ -280,12 +288,19 @@ public class EmployeeDetailController implements Initializable {
     public void setState(boolean refresh){
         refreshTable = refresh;
     }
+
     @FXML
-    private void getEmployeeReport(ActionEvent event){
+    private void getSpecificEmployeeReport(ActionEvent event){
         if(selectedEmployee != null){
             PrintReport printReport = new PrintReport();
-            printReport.printEmployeeReport(selectedEmployee);
+            printReport.printSpecificEmployeeReport(selectedEmployee);
         }
+    }
+
+    @FXML
+    private void getEmployeeReport(ActionEvent event){
+        PrintReport printReport = new PrintReport();
+        printReport.printEmployeeReport(employeeTypeChoiceBox.getValue());
     }
 
 
