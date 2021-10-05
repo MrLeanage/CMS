@@ -140,7 +140,10 @@ public class SupplierService {
                 //comparing search text with table columns one by one
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (supplier.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (supplier.getId().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    //return if filter matches data
+                    return true;
+                }else if (supplier.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     //return if filter matches data
                     return true;
                 } else if (supplier.getNic().toLowerCase().indexOf(lowerCaseFilter) != -1) {

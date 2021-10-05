@@ -220,7 +220,11 @@ public class UserDetailController implements Initializable {
     }
 
     private boolean userValidation() {
-
+        ObservableList<User> modelList = userTable.getItems();
+        ArrayList<String> userList = new ArrayList<>();
+        for (User user : modelList) {
+            userList.add(user.getuEmail().toLowerCase());
+        }
 
         return DataValidation.TextFieldNotEmpty(emailTextField.getText())
                 && DataValidation.TextFieldNotEmpty(fNameTextField.getText())
@@ -235,7 +239,9 @@ public class UserDetailController implements Initializable {
                 && DataValidation.isValidMaximumLength(confirmPWPasswordField.getText(), 20)
 
                 && DataValidation.isValidEmail(emailTextField.getText())
-                && DataValidation.PasswordFieldMatch(pwPasswordField, confirmPWPasswordField);
+                && DataValidation.PasswordFieldMatch(pwPasswordField, confirmPWPasswordField)
+
+                && UtilityMethod.checkDataAvailability(userList, emailTextField.getText().toLowerCase());
 
 
     }
@@ -277,7 +283,7 @@ public class UserDetailController implements Initializable {
             DataValidation.PasswordFieldMatch(pwPasswordField, confirmPWPasswordField, passwordLabel, passwordLabel, "Password doesn't match");
 
         }
-        if (!UtilityMethod.checkDataAvailability(userList, emailTextField.getText().toLowerCase())) {
+        if (UtilityMethod.checkDataAvailability(userList, emailTextField.getText().toLowerCase())) {
             checkUserEmailAvailability();
         }
     }

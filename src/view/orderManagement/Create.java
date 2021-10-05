@@ -1,7 +1,8 @@
 package view.orderManagement;
 
-import bean.Menu;
+
 import bean.Order;
+import bean.Product;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,18 +13,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import service.MenuService;
 import service.OrderService;
 import utility.dataHandler.DataValidation;
-import utility.navigation.Navigation;
 import utility.popUp.AlertPopUp;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,7 +33,7 @@ public class Create implements Initializable {
     private TextField searchTextField;
 
     @FXML
-    private TextField menuIDTextField;
+    private TextField productIDTextField;
 
     @FXML
     private JFXButton updateButton;
@@ -47,13 +42,10 @@ public class Create implements Initializable {
     private JFXButton addButton;
 
     @FXML
-    private Label menuIDLabel;
+    private Label productIDLabel;
 
     @FXML
     private TextArea noteTextArea;
-
-    @FXML
-    private Label quantityLabel;
 
     @FXML
     private Spinner<Integer> quantitySpinner;
@@ -70,9 +62,7 @@ public class Create implements Initializable {
     @FXML
     private ChoiceBox<String> statusChoiceBox;
 
-    public static Menu selectedMenu = null;
-
-    private static Order selectedOrder = null;
+    public static Product selectedProduct = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,7 +83,7 @@ public class Create implements Initializable {
         if (orderValidation()) {
             Order order = new Order();
             OrderService orderService = new OrderService();
-            order.setoMenuID(menuIDTextField.getText());
+            order.setoProductID(productIDTextField.getText());
             order.setoCustomerName(customerNameTextField.getText());
             order.setoQuantity(quantitySpinner.getValue());
             order.setoNotes(noteTextArea.getText());
@@ -111,22 +101,22 @@ public class Create implements Initializable {
     }
     @FXML
     void clearFields(ActionEvent event) {
-        menuIDTextField.setText("");
+        productIDTextField.setText("");
         customerNameTextField.setText("");
         noteTextArea.setText("");
         resetComponents();
         clearLabels();
-        selectedOrder = null;
+        selectedProduct = null;
     }
 
     private void clearLabels() {
-        menuIDLabel.setText("");
+        productIDLabel.setText("");
         customerNameLabel.setText("");
         noteLabel.setText("");
     }
 
     private boolean orderValidation() {
-        return DataValidation.TextFieldNotEmpty(menuIDTextField.getText())
+        return DataValidation.TextFieldNotEmpty(productIDTextField.getText())
                 && DataValidation.TextFieldNotEmpty(customerNameTextField.getText())
 
                 && DataValidation.isValidMaximumLength(customerNameTextField.getText(), 45)
@@ -135,9 +125,9 @@ public class Create implements Initializable {
 
     private void orderValidationMessage() {
 
-        if (!(DataValidation.TextFieldNotEmpty(menuIDTextField.getText())
+        if (!(DataValidation.TextFieldNotEmpty(productIDTextField.getText())
                 && DataValidation.TextFieldNotEmpty(customerNameTextField.getText()))) {
-            DataValidation.TextFieldNotEmpty(menuIDTextField.getText(), menuIDLabel, "Please Select a Menu!");
+            DataValidation.TextFieldNotEmpty(productIDTextField.getText(), productIDLabel, "Please Select a Menu!");
             DataValidation.TextFieldNotEmpty(customerNameTextField.getText(), customerNameLabel, "Customer Name Required!");
 
         }
@@ -154,19 +144,19 @@ public class Create implements Initializable {
         updateButton.setVisible(false);
     }
 
-    public void setMenu(Menu menu){
-        selectedMenu = menu;
-        menuIDTextField.setText(selectedMenu.getmID());
+    public void setProduct(Product product){
+        selectedProduct = product;
+        productIDTextField.setText(selectedProduct.getpID());
     }
 
     @FXML
-    private void browseMenu(ActionEvent actionEvent){
+    private void browseProduct(ActionEvent actionEvent){
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("menuPopUp.fxml"));
+        loader.setLocation(getClass().getResource("productPopUpAdd.fxml"));
         try{
             loader.load();
         }catch (IOException ex){
-            Logger.getLogger(MenuPopUpController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductPopUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Parent p = loader.getRoot();
         Stage stage = new Stage();
@@ -176,8 +166,8 @@ public class Create implements Initializable {
 
         stage.showAndWait();
 
-        if(selectedMenu != null)
-            menuIDTextField.setText(selectedMenu.getmID());
+        if(selectedProduct != null)
+            productIDTextField.setText(selectedProduct.getpID());
     }
 
 }

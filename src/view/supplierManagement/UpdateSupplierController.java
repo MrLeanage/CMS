@@ -1,5 +1,6 @@
 package view.supplierManagement;
 
+import bean.Employee;
 import bean.Supplier;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
@@ -15,10 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.SupplierService;
 import utility.dataHandler.DataValidation;
+import utility.dataHandler.UtilityMethod;
 import utility.popUp.AlertPopUp;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UpdateSupplierController implements Initializable {
@@ -64,8 +67,15 @@ public class UpdateSupplierController implements Initializable {
     @FXML
     private TextField idTextField;
 
-    private static Supplier supplierData;
+    private static Supplier selectedSupplier;
 
+    private static ArrayList<String> nicList = new ArrayList<>();
+
+    private static ArrayList<String> phoneList  = new ArrayList<>();
+
+    private static ArrayList<String> emailList  = new ArrayList<>();
+
+    private ObservableList<Supplier> supplierObservableList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,24 +87,32 @@ public class UpdateSupplierController implements Initializable {
         typeChoiceBox.setValue(supplierTypeList.get(0));
         typeChoiceBox.setItems(supplierTypeList);
 
-        idTextField.setText(supplierData.getId());
-        nameTextField.setText(supplierData.getName());
-        nicTextField.setText(supplierData.getNic());
-        emailTextField.setText(supplierData.getEmail());
-        addressTextField.setText(supplierData.getAddress());
-        phoneTextField.setText(supplierData.getPhoneNumber());
-        typeChoiceBox.setValue(supplierData.getType());
+        idTextField.setText(selectedSupplier.getId());
+        nameTextField.setText(selectedSupplier.getName());
+        nicTextField.setText(selectedSupplier.getNic());
+        emailTextField.setText(selectedSupplier.getEmail());
+        addressTextField.setText(selectedSupplier.getAddress());
+        phoneTextField.setText(selectedSupplier.getPhoneNumber());
+        typeChoiceBox.setValue(selectedSupplier.getType());
+
+        SupplierService supplierService = new SupplierService();
+        supplierObservableList = supplierService.loadAllSupplierData();
+        for(Supplier supplier : supplierObservableList){
+            nicList.add(supplier.getNic().toLowerCase());
+            phoneList.add(supplier.getPhoneNumber());
+            emailList.add(supplier.getEmail().toLowerCase());
+        }
 
     }
     @FXML
     void clearFields(ActionEvent event) {
-        idTextField.setText(supplierData.getId());
-        nameTextField.setText(supplierData.getName());
-        nicTextField.setText(supplierData.getNic());
-        emailTextField.setText(supplierData.getEmail());
-        addressTextField.setText(supplierData.getAddress());
-        phoneTextField.setText(supplierData.getPhoneNumber());
-        typeChoiceBox.setValue(supplierData.getType());
+        idTextField.setText(selectedSupplier.getId());
+        nameTextField.setText(selectedSupplier.getName());
+        nicTextField.setText(selectedSupplier.getNic());
+        emailTextField.setText(selectedSupplier.getEmail());
+        addressTextField.setText(selectedSupplier.getAddress());
+        phoneTextField.setText(selectedSupplier.getPhoneNumber());
+        typeChoiceBox.setValue(selectedSupplier.getType());
         clearLabels();
     }
 
@@ -109,6 +127,27 @@ public class UpdateSupplierController implements Initializable {
 
 
     private boolean fieldValidation() {
+        boolean specificNICFieldValidation = true;
+        boolean specificPhoneFieldValidation = true;
+        boolean specificEmailFieldValidation = true;
+
+        for(Supplier supplier : supplierObservableList){
+            if(supplier.getId().equals(selectedSupplier.getId())){
+                if((!(supplier.getPhoneNumber()).equals(phoneTextField.getText()))
+                        && UtilityMethod.checkDataAvailability(phoneList, phoneTextField.getText().toLowerCase()))
+                    specificPhoneFieldValidation = false;
+
+                if(!(supplier.getNic().equals(nicTextField.getText()))
+                        && UtilityMethod.checkDataAvailability(nicList, nicTextField.getText().toLowerCase()))
+                    specificNICFieldValidation = false;
+
+                if(!(supplier.getEmail().equals(emailTextField.getText()))
+                        && UtilityMethod.checkDataAvailability(emailList, emailTextField.getText().toLowerCase()))
+                    specificEmailFieldValidation = false;
+            }
+
+
+        }
 
         if (!(DataValidation.TextFieldNotEmpty(nameTextField.getText())
                 && DataValidation.TextFieldNotEmpty(nicTextField.getText())
@@ -122,7 +161,10 @@ public class UpdateSupplierController implements Initializable {
 
                 && DataValidation.isValidNIC(nicTextField)
                 && DataValidation.isValidEmail(emailTextField.getText())
-                && DataValidation.isValidPhoneNo(phoneTextField.getText()))) {
+                && DataValidation.isValidPhoneNo(phoneTextField.getText())
+                && specificNICFieldValidation
+                && specificPhoneFieldValidation
+                && specificEmailFieldValidation)) {
 
             DataValidation.TextFieldNotEmpty(nameTextField.getText(), nameLabel, "Supplier Name Required!");
             DataValidation.TextFieldNotEmpty(nicTextField.getText(), nicLabel, "Supplier NIC Required!");
@@ -137,6 +179,23 @@ public class UpdateSupplierController implements Initializable {
             DataValidation.isValidEmail(emailTextField.getText(), emailLabel, "Invalid Email Address!");
             DataValidation.isValidNIC(nicTextField, nicLabel, "Invalid NIC!");
             DataValidation.isValidPhoneNo(phoneTextField.getText(), phoneLabel, "Invalid Phone Number!");
+
+            for(Supplier supplier : supplierObservableList){
+                if(supplier.getId().equals(selectedSupplier.getId())){
+                    if((!(supplier.getPhoneNumber()).equals(phoneTextField.getText()))
+                            && UtilityMethod.checkDataAvailability(phoneList, phoneTextField.getText().toLowerCase()))
+                        checkPhoneAvailability();
+
+                    if(!(supplier.getNic().equals(nicTextField.getText()))
+                            && UtilityMethod.checkDataAvailability(nicList, nicTextField.getText().toLowerCase()))
+                        checkNICAvailability();
+
+                    if(!(supplier.getEmail().equals(emailTextField.getText()))
+                            && UtilityMethod.checkDataAvailability(emailList, emailTextField.getText().toLowerCase()))
+                        checkEmailAvailability();
+                }
+            }
+
             return false;
 
         }else
@@ -175,6 +234,46 @@ public class UpdateSupplierController implements Initializable {
                 AlertPopUp.updateFailed("Supplier");
         }
     }
+
+    @FXML
+    private void checkNICAvailability() {
+        for(Supplier supplier : supplierObservableList){
+            //set nothing if
+            if((supplier.getNic().equals(nicTextField.getText()) && supplier.getId().equals(selectedSupplier.getId()))){
+                nicLabel.setText("");
+            }else{
+                DataValidation.checkNICAvailability(nicTextField, nicLabel, nicList);
+            }
+        }
+
+    }
+
+    @FXML
+    private void checkPhoneAvailability() {
+
+        for(Supplier supplier : supplierObservableList){
+            if(((supplier.getPhoneNumber()).equals(phoneTextField.getText()) && supplier.getId().equals(selectedSupplier.getId()))){
+                phoneLabel.setText("");
+            }else{
+                DataValidation.checkPhoneAvailability(phoneTextField, phoneLabel, phoneList);
+            }
+        }
+
+    }
+
+    @FXML
+    private void checkEmailAvailability() {
+
+        for(Supplier supplier : supplierObservableList){
+            if((("0"+supplier.getEmail()).equals(emailTextField.getText()) && supplier.getId().equals(selectedSupplier.getId()))){
+                emailLabel.setText("");
+            }else{
+                DataValidation.checkEmailAvailability(emailTextField, emailLabel, emailList);
+            }
+        }
+
+    }
+
     private void closeStage(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
@@ -186,6 +285,6 @@ public class UpdateSupplierController implements Initializable {
     }
 
     public static void setData(Supplier supplier){
-        supplierData = supplier;
+        selectedSupplier = supplier;
     }
 }

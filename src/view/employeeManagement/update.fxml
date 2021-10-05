@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,14 +15,12 @@
             <Label layoutX="359.0" layoutY="106.0" text="Contact No :" />
             <Label layoutX="360.0" layoutY="161.0" text="Designation :" AnchorPane.topAnchor="161.0" />
             <TextField fx:id="nameTextField" layoutX="138.0" layoutY="105.0" prefHeight="25.0" prefWidth="200.0" />
-            <TextField fx:id="phoneTextField" layoutX="462.0" layoutY="111.0" prefHeight="25.0" prefWidth="200.0" />
-            <TextField fx:id="designationTextField" layoutX="463.0" layoutY="160.0" prefWidth="200.0" />
+            <TextField fx:id="phoneTextField" layoutX="462.0" layoutY="111.0" onKeyReleased="#checkPhoneAvailability" prefHeight="25.0" prefWidth="200.0" />
             <Label fx:id="nameLabel" layoutX="37.0" layoutY="133.0" prefHeight="17.0" prefWidth="300.0" textFill="RED" />
             <Label fx:id="phoneLabel" layoutX="361.0" layoutY="142.0" prefHeight="17.0" prefWidth="300.0" textFill="RED" AnchorPane.leftAnchor="361.0" AnchorPane.topAnchor="142.0" />
-            <Label fx:id="designationLabel" layoutX="36.0" layoutY="194.0" prefHeight="17.0" prefWidth="300.0" textFill="RED" />
+            <Label fx:id="nicLabel" layoutX="36.0" layoutY="194.0" prefHeight="17.0" prefWidth="300.0" textFill="RED" />
             <Label layoutX="36.0" layoutY="163.0" text="Employee NIC :" AnchorPane.topAnchor="163.0" />
-            <TextField fx:id="nicTextField" layoutX="139.0" layoutY="159.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="159.0" />
-            <Label fx:id="nicLabel" layoutX="358.0" layoutY="191.0" prefHeight="17.0" prefWidth="307.0" textFill="RED" />
+            <TextField fx:id="nicTextField" layoutX="139.0" layoutY="159.0" onKeyReleased="#checkNICAvailability" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="159.0" />
             <JFXButton fx:id="updateButton" layoutX="346.0" layoutY="285.0" onAction="#updateEmployee" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #217500;" text="UPDATE" textFill="WHITE">
                 <font>
                     <Font name="Calibri Bold" size="13.0" />
@@ -42,5 +41,6 @@
             <Font name="Calibri Bold" size="13.0" />
          </font>
       </JFXButton>
+      <ChoiceBox fx:id="employeeTypeChoiceBox" layoutX="461.0" layoutY="159.0" prefHeight="25.0" prefWidth="200.0" />
         </children>
 </AnchorPane>

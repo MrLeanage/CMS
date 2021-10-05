@@ -1,8 +1,8 @@
 package service;
 
-import bean.Employee;
-import bean.Menu;
+
 import bean.Order;
+import bean.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import utility.dataHandler.UtilityMethod;
 import utility.dbConnection.DBConnection;
 import utility.popUp.AlertPopUp;
-import utility.query.EmployeeQuery;
 import utility.query.OrderQuery;
 
 import java.sql.Connection;
@@ -30,10 +29,10 @@ public class OrderService {
 
         try {
             ResultSet resultSet = connection.createStatement().executeQuery(OrderQuery.LOAD_ALL_ORDER_DATA);
-            MenuService menuService = new MenuService();
+            ProductService productService = new ProductService();
             while (resultSet.next()) {
-                Menu menu = menuService.loadSpecificMenu(UtilityMethod.addPrefix("M", resultSet.getString(3)));
-                orderObservableList.add(new Order(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), menu.getmName(), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6)));
+                Product product = productService.loadSpecificProduct(UtilityMethod.addPrefix("P", resultSet.getString(3)));
+                orderObservableList.add(new Order(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), product.getpID(), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6)));
             }
 
         } catch (SQLException sqlException) {
@@ -47,13 +46,13 @@ public class OrderService {
         Order order = null;
 
         try {
-            MenuService menuService = new MenuService();
+            ProductService productService = new ProductService();
             PreparedStatement preparedStatement = connection.prepareStatement(OrderQuery.LOAD_SPECIFIC_ORDER_DATA);
             preparedStatement.setInt(1, UtilityMethod.seperateID(oID));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Menu menu = menuService.loadSpecificMenu(UtilityMethod.addPrefix("M", resultSet.getString(3)));
-                order = new Order(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), menu.getmName(), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
+                Product product = productService.loadSpecificProduct(UtilityMethod.addPrefix("P", resultSet.getString(3)));
+                order = new Order(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), product.getpName(), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
             }
 
         } catch (SQLException sqlException) {
@@ -69,7 +68,7 @@ public class OrderService {
             psOrder = connection.prepareStatement(OrderQuery.INSERT_ORDER_DATA);
 
             psOrder.setString(1, order.getoCustomerName());
-            psOrder.setInt(2, UtilityMethod.seperateID(order.getoMenuID()));
+            psOrder.setInt(2, UtilityMethod.seperateID(order.getoProductID()));
             psOrder.setString(3, order.getoNotes());
             psOrder.setInt(4, order.getoQuantity());
             psOrder.setString(5, order.getoStatus());
@@ -89,7 +88,7 @@ public class OrderService {
             psOrder = connection.prepareStatement(OrderQuery.UPDATE_ORDER_DATA);
 
             psOrder.setString(1, order.getoCustomerName());
-            psOrder.setInt(2, UtilityMethod.seperateID(order.getoMenuID()));
+            psOrder.setInt(2, UtilityMethod.seperateID(order.getoProductID()));
             psOrder.setString(3, order.getoNotes());
             psOrder.setInt(4, order.getoQuantity());
             psOrder.setString(5, order.getoStatus());
@@ -137,7 +136,7 @@ public class OrderService {
                  if (order.getoCustomerName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     //return if filter matches data
                     return true;
-                } else if (order.getoMenuName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (order.getoProductName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     //return if filter matches data
                     return true;
                 }else if (order.getoStatus().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {

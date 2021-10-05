@@ -9,8 +9,8 @@ import utility.dataHandler.UtilityMethod;
 public class Order {
     private String oID = null;
     private String oCustomerName = null;
-    private String oMenuID = null;
-    private String oMenuName = null;
+    private String oProductID = null;
+    private String oProductName = null;
     private String oNotes = null;
     private Integer oQuantity = null;
     private String oStatus = null;
@@ -18,11 +18,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(String oID, String oCustomerName, String oMenuID, String oMenuName, String oNotes, Integer oQuantity, String oStatus) {
+    public Order(String oID, String oCustomerName, String oProductID, String oProductName, String oNotes, Integer oQuantity, String oStatus) {
         this.oID = UtilityMethod.addPrefix("OR", oID);
         this.oCustomerName = oCustomerName;
-        this.oMenuID = UtilityMethod.addPrefix("M", oMenuID);
-        this.oMenuName = oMenuName;
+        this.oProductID = UtilityMethod.addPrefix("P", oProductID);
+        this.oProductName = oProductName;
         this.oNotes = oNotes;
         this.oQuantity = oQuantity;
         this.oStatus = oStatus;
@@ -52,24 +52,24 @@ public class Order {
         this.oCustomerName = oCustomerName;
     }
 
-    public String getoMenuID() {
-        return oMenuID;
+    public String getoProductID() {
+        return oProductID;
     }
 
-    public void setoMenuID(String oMenuID) {
-        this.oMenuID = oMenuID;
+    public void setoProductID(String oProductID) {
+        this.oProductID = oProductID;
     }
 
-    public String getoMenuName() {
-        return oMenuName;
+    public String getoProductName() {
+        return oProductName;
     }
 
-    public StringProperty oMenuNameProperty(){
-        return new SimpleStringProperty(oMenuName);
+    public StringProperty oProductNameProperty(){
+        return new SimpleStringProperty(oProductName);
     }
 
-    public void setoMenuName(String oMenuName) {
-        this.oMenuName = oMenuName;
+    public void setoProductName(String oProductName) {
+        this.oProductName = oProductName;
     }
 
     public String getoNotes() {

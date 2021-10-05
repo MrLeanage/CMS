@@ -126,7 +126,10 @@ public class EmployeeService {
                 //comparing search text with table columns one by one
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                 if (employee.geteName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (employee.geteID().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    //return if filter matches data
+                    return true;
+                }else if (employee.geteName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     //return if filter matches data
                     return true;
                 } else if (employee.geteNIC().toLowerCase().indexOf(lowerCaseFilter) != -1) {

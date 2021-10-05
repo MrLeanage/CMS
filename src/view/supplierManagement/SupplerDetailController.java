@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import service.SupplierService;
+import utility.dataHandler.DataValidation;
 import utility.dataHandler.PrintReport;
 import utility.popUp.AlertPopUp;
 
@@ -241,4 +242,6 @@ public class SupplerDetailController implements Initializable {
         PrintReport printReport = new PrintReport();
         printReport.printSupplierReport(supplierTypeChoiceBox.getValue());
     }
+
+
 }

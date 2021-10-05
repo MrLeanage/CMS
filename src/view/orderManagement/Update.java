@@ -1,7 +1,8 @@
 package view.orderManagement;
 
-import bean.Menu;
+
 import bean.Order;
+import bean.Product;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,12 +13,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import service.OrderService;
 import utility.dataHandler.DataValidation;
 import utility.popUp.AlertPopUp;
-import view.supplierManagement.SupplerDetailController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,17 +25,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Update implements Initializable {
-    @FXML
-    private AnchorPane detailAnchorPane;
 
     @FXML
-    private TextField searchTextField;
+    private TextField productIDTextField;
 
     @FXML
-    private TextField menuIDTextField;
-
-    @FXML
-    private Label menuIDLabel;
+    private Label productIDLabel;
 
     @FXML
     private TextArea noteTextArea;
@@ -60,7 +54,7 @@ public class Update implements Initializable {
     @FXML
     private ChoiceBox<String> statusChoiceBox;
 
-    public static Menu selectedMenu = null;
+    public static Product selectedProduct = null;
 
     private static Order selectedOrder = null;
 
@@ -71,7 +65,7 @@ public class Update implements Initializable {
         ObservableList<String> statusList = FXCollections.observableArrayList("Pending", "Processing", "Delivered");
         statusChoiceBox.setValue("Pending");
         statusChoiceBox.setItems(statusList);
-        menuIDTextField.setText(selectedOrder.getoMenuID());
+        productIDTextField.setText(selectedOrder.getoProductID());
         customerNameTextField.setText(selectedOrder.getoCustomerName());
         quantitySpinner.getValueFactory().setValue(selectedOrder.getoQuantity());
         noteTextArea.setText(selectedOrder.getoNotes());
@@ -96,7 +90,7 @@ public class Update implements Initializable {
             OrderService orderService = new OrderService();
 
             order.setoID(selectedOrder.getoID());
-            order.setoMenuID(menuIDTextField.getText());
+            order.setoProductID(productIDTextField.getText());
             order.setoCustomerName(customerNameTextField.getText());
             order.setoQuantity(quantitySpinner.getValue());
             order.setoNotes(noteTextArea.getText());
@@ -122,7 +116,7 @@ public class Update implements Initializable {
     }
     @FXML
     void clearFields(ActionEvent event) {
-        menuIDTextField.setText("");
+        productIDTextField.setText("");
         customerNameTextField.setText("");
         noteTextArea.setText("");
         clearLabels();
@@ -130,13 +124,13 @@ public class Update implements Initializable {
     }
 
     private void clearLabels() {
-        menuIDLabel.setText("");
+        productIDLabel.setText("");
         customerNameLabel.setText("");
         noteLabel.setText("");
     }
 
     private boolean orderValidation() {
-        return DataValidation.TextFieldNotEmpty(menuIDTextField.getText())
+        return DataValidation.TextFieldNotEmpty(productIDTextField.getText())
                 && DataValidation.TextFieldNotEmpty(customerNameTextField.getText())
 
                 && DataValidation.isValidMaximumLength(customerNameTextField.getText(), 45)
@@ -145,9 +139,9 @@ public class Update implements Initializable {
 
     private void orderValidationMessage() {
 
-        if (!(DataValidation.TextFieldNotEmpty(menuIDTextField.getText())
+        if (!(DataValidation.TextFieldNotEmpty(productIDTextField.getText())
                 && DataValidation.TextFieldNotEmpty(customerNameTextField.getText()))) {
-            DataValidation.TextFieldNotEmpty(menuIDTextField.getText(), menuIDLabel, "Please Select a Menu!");
+            DataValidation.TextFieldNotEmpty(productIDTextField.getText(), productIDLabel, "Please Select a Menu!");
             DataValidation.TextFieldNotEmpty(customerNameTextField.getText(), customerNameLabel, "Customer Name Required!");
 
         }
@@ -160,13 +154,13 @@ public class Update implements Initializable {
     }
 
     @FXML
-    private void browseMenu(ActionEvent actionEvent){
+    private void browseProduct(ActionEvent actionEvent){
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("menuPopUp.fxml"));
+        loader.setLocation(getClass().getResource("productPopUp.fxml"));
         try{
             loader.load();
         }catch (IOException ex){
-            Logger.getLogger(MenuPopUpController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductPopUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Parent p = loader.getRoot();
         Stage stage = new Stage();
@@ -176,12 +170,12 @@ public class Update implements Initializable {
 
         stage.showAndWait();
 
-        if(selectedMenu != null)
-            menuIDTextField.setText(selectedMenu.getmID());
+        if(selectedProduct != null)
+            productIDTextField.setText(selectedProduct.getpID());
     }
 
-    public void setMenu(Menu menu){
-        selectedMenu = menu;
+    public void setProduct(Product product){
+        selectedProduct = product;
     }
     private void closeStage(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();

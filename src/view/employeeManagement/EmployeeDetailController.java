@@ -1,5 +1,6 @@
 package view.employeeManagement;
 
+import bean.Designation;
 import bean.Employee;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import service.DesignationService;
 import service.EmployeeService;
 import utility.dataHandler.PrintReport;
 import utility.dataHandler.UtilityMethod;
@@ -117,16 +119,16 @@ public class EmployeeDetailController implements Initializable {
 //        navigation
         searchTable();
 
+        DesignationService designationService = new DesignationService();
         ObservableList<String> designationList = FXCollections.observableArrayList();
-        for(Employee employee : employeeObservableList){
-            designationList.add(employee.geteDesignation());
+        for(Designation designation : designationService.loadAllDesignationData()){
+            if(designation.getdStatus().equals("Active"))
+                designationList.add(designation.getdName());
         }
+        designationList.add("All");
 
-        ObservableList<String> sortedDesignationList = UtilityMethod.removeStringDuplicates(designationList);
-        sortedDesignationList.add("All");
-
-        employeeTypeChoiceBox.setValue(sortedDesignationList.get(0));
-        employeeTypeChoiceBox.setItems(sortedDesignationList);
+        employeeTypeChoiceBox.setValue(designationList.get(0));
+        employeeTypeChoiceBox.setItems(designationList);
     }
     private void setCreateStage(Stage stage) {
         EmployeeDetailController.createStage = stage;
@@ -151,9 +153,10 @@ public class EmployeeDetailController implements Initializable {
     private void addEmployee(ActionEvent event)throws IOException{
         Stage primaryStage= new Stage();
         Parent root =FXMLLoader.load(getClass().getResource("/view/employeeManagement/create.fxml"));
-        Scene scene = new  Scene(root, 600, 500);
+        Scene scene = new  Scene(root, 720, 350);
 
         primaryStage.setScene(scene);
+
         primaryStage.setResizable(false);
         primaryStage.sizeToScene();
         primaryStage.show();
@@ -275,6 +278,20 @@ public class EmployeeDetailController implements Initializable {
 //            DataValidation.isValidPhoneNo(phoneTextField.getText(), phoneLabel, "Invalid Contact Number!!");
 //        }
 //    }
+
+    @FXML
+    void manageDesignation(ActionEvent event) throws IOException{
+        Stage primaryStage= new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/employeeManagement/designationPopUp.fxml"));
+        Scene scene = new  Scene(root, 720, 500);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
+        primaryStage.showAndWait();
+
+        setInitData();
+    }
+
     private void resetComponents() {
         addButton.setVisible(true);
         updateButton.setVisible(false);
@@ -299,8 +316,12 @@ public class EmployeeDetailController implements Initializable {
 
     @FXML
     private void getEmployeeReport(ActionEvent event){
-        PrintReport printReport = new PrintReport();
-        printReport.printEmployeeReport(employeeTypeChoiceBox.getValue());
+        if(!employeeTypeChoiceBox.getValue().equals("")){
+            PrintReport printReport = new PrintReport();
+            printReport.printEmployeeReport(employeeTypeChoiceBox.getValue());
+        }else
+            AlertPopUp.failMessage("Please Select..", "Select Employee Designation Type to generate Report");
+
     }
 
 

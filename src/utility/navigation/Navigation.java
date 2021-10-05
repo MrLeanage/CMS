@@ -47,7 +47,7 @@ public class Navigation {
 
     public void loadMenuDetail(AnchorPane baseAnchorPane) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/menuManagement/menuDetail.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/productManagement/productDetail.fxml"));
             baseAnchorPane.getChildren().setAll(pane);
         } catch (IOException ex) {
             AlertPopUp.generalError(ex);
@@ -96,7 +96,7 @@ public class Navigation {
 
     public void createMenu(AnchorPane baseAnchorPane) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/menuManagement/create.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/productManagement/create.fxml"));
             baseAnchorPane.getChildren().setAll(pane);
         } catch (IOException ex) {
             AlertPopUp.generalError(ex);

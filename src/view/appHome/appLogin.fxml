@@ -51,7 +51,7 @@
                   <Font name="Calibri Bold" size="23.0" />
                </font>
             </Label>
-            <Button layoutX="325.0" layoutY="411.0" mnemonicParsing="false" onAction="#fillData" text="Button" visible="false" />
+            <Button layoutX="325.0" layoutY="411.0" mnemonicParsing="false" onAction="#fillData" text="Button" />
          </children>
       </AnchorPane>
    </children>

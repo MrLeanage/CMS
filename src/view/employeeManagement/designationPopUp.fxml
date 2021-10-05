@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="720.0" stylesheets="@../../lib/css/system.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.employeeManagement.DesignationPopUpController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="490.0" layoutX="75.0" layoutY="68.0" stroke="#573e00" strokeType="INSIDE" strokeWidth="3.0" width="710.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+      <TableView fx:id="designationTable" layoutX="15.0" layoutY="97.0" onMouseClicked="#setSelectedData" prefHeight="237.0" prefWidth="690.0">
+         <columns>
+            <TableColumn fx:id="IDColumn" prefWidth="107.0" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="175.0" text="DESIGNATION TITLE" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="302.0" text="DESIGNATION DESCRIPTION" />
+            <TableColumn fx:id="statusColumn" prefWidth="104.0" text="STATUS" />
+         </columns>
+      </TableView>
+      <TextField fx:id="searchTextField" layoutX="15.0" layoutY="67.0" prefHeight="25.0" prefWidth="690.0" AnchorPane.leftAnchor="15.0" />
+      <FontAwesomeIconView fill="#573e00" glyphName="SEARCH" layoutX="687.0" layoutY="84.0" />
+      <Label layoutX="26.0" layoutY="26.0" text="EMPLOYEE DESIGNATION" textFill="#2e0000" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="377.0" layoutY="453.0" prefHeight="34.0" prefWidth="220.0" AnchorPane.rightAnchor="123.0">
+         <children>
+            <JFXButton onAction="#deleteDesignation" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #a70000;" text="DELETE" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="13.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </JFXButton>
+            <JFXButton onAction="#clearFields" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #573e00;" text="CLEAR FIELDS" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <opaqueInsets>
+            <Insets left="5.0" right="5.0" />
+         </opaqueInsets>
+      </HBox>
+      <JFXButton fx:id="updateButton" layoutX="277.0" layoutY="455.0" onAction="#updateDesignation" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #217500;" text="UPDATE" textFill="WHITE" AnchorPane.bottomAnchor="15.0">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="addButton" layoutX="277.0" layoutY="455.0" onAction="#addDesignation" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ffef00;" text="ADD" visible="true" AnchorPane.bottomAnchor="15.0">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="dIDLabel" layoutX="14.0" layoutY="344.0" text="Designation ID:" />
+      <Label layoutX="14.0" layoutY="373.0" text="Designation Title:" />
+      <Label layoutX="360.0" layoutY="373.0" text="Designation Description:" AnchorPane.leftAnchor="360.0" />
+      <Label layoutX="15.0" layoutY="426.0" text="Designation Status:" />
+      <TextField fx:id="dIDTextField" layoutX="150.0" layoutY="340.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />
+      <TextField fx:id="dTitleTextField" layoutX="150.0" layoutY="374.0" onKeyReleased="#checkDesignationTitleAvailability" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />
+      <TextArea fx:id="dDescriptionTextArea" layoutX="505.0" layoutY="374.0" prefHeight="47.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
+      <ChoiceBox fx:id="dStatusChoiceBox" layoutX="150.0" layoutY="422.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />
+      <Label fx:id="dTitleValidationLabel" layoutX="15.0" layoutY="402.0" prefHeight="17.0" prefWidth="335.0" textFill="#a70000" />
+      <Label fx:id="dDescriptionValidationLabel" layoutX="360.0" layoutY="423.0" prefHeight="17.0" prefWidth="345.0" textFill="#a70000" />
+      <JFXButton fx:id="cancelButton" layoutX="605.0" layoutY="455.0" onAction="#closeStage" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #a70000;" text="CANCEL" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

@@ -1,8 +1,7 @@
 package view.orderManagement;
 
-import bean.Employee;
-import bean.Menu;
 import bean.Order;
+import bean.Product;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import service.EmployeeService;
 import service.OrderService;
-import utility.dataHandler.DataValidation;
 import utility.dataHandler.PrintReport;
 import utility.popUp.AlertPopUp;
 
@@ -28,8 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class OrderDetailController implements Initializable {
     @FXML
@@ -90,7 +85,7 @@ public class OrderDetailController implements Initializable {
 
 
 
-    public static Menu selectedMenu = null;
+    public static Product selectedProduct = null;
 
     private static Order selectedOrder = null;
 
@@ -153,15 +148,20 @@ public class OrderDetailController implements Initializable {
 
     @FXML
     void updateOrder(ActionEvent event) throws IOException {
-        Stage updateStage= new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/update.fxml"));
-        Scene scene = new  Scene(root, 720, 350);
-        updateStage.setScene(scene);
-        updateStage.setResizable(false);
-        updateStage.sizeToScene();
-        updateStage.showAndWait();
-        if(refreshTable)
-            setInitData();
+        if(selectedOrder != null){
+            Stage updateStage= new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/update.fxml"));
+            Scene scene = new  Scene(root, 720, 350);
+            updateStage.setScene(scene);
+            updateStage.setResizable(false);
+            updateStage.sizeToScene();
+            updateStage.showAndWait();
+            if(refreshTable)
+                setInitData();
+        }else{
+            AlertPopUp.selectRowToUpdate("Order");
+        }
+
     }
 
     @FXML
@@ -229,9 +229,9 @@ public class OrderDetailController implements Initializable {
     }
 
 
-    public void setMenu(Menu menu){
-        selectedMenu = menu;
-        menuIDTextField.setText(selectedMenu.getmID());
+    public void setMenu(Product product){
+        selectedProduct = product;
+        menuIDTextField.setText(selectedProduct.getpID());
     }
 
     public void setState(boolean refresh){

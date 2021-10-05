@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -354,4 +355,63 @@ public class DataValidation {
         return number > 1023 && number <= 65535;
     }
 
+    public static void checkPhoneAvailability(TextField phoneTextField, Label phoneLabel, ArrayList<String> phoneList) {
+
+        if (phoneTextField.getText().isEmpty()) {
+            phoneLabel.setStyle("-fx-text-fill: #ff0000 ");
+            phoneLabel.setText("Contact Number Field Cannot be empty");
+        } else if (UtilityMethod.checkDataAvailability(phoneList, phoneTextField.getText().toLowerCase())) {
+            phoneLabel.setStyle("-fx-text-fill: #ff0000 ");
+            phoneLabel.setText("Contact Number Already Available!!");
+        } else {
+            if (DataValidation.isValidPhoneNo(phoneTextField.getText())) {
+                phoneLabel.setStyle("-fx-text-fill: #00B605 ");
+                phoneLabel.setText("Contact Number Available to use");
+            } else {
+                phoneLabel.setStyle("-fx-text-fill: #ff0000 ");
+                phoneLabel.setText("Invalid Contact Number!!");
+            }
+
+        }
+    }
+
+    public static void checkNICAvailability(TextField nicTextField, Label nicLabel, ArrayList<String> nicList) {
+
+        if (nicTextField.getText().isEmpty()) {
+            nicLabel.setStyle("-fx-text-fill: #ff0000 ");
+            nicLabel.setText("NIC Cannot be empty");
+        } else if (UtilityMethod.checkDataAvailability(nicList, nicTextField.getText().toLowerCase())) {
+            nicLabel.setStyle("-fx-text-fill: #ff0000 ");
+            nicLabel.setText("NIC Already Available!!");
+        } else {
+            if (DataValidation.isValidNIC(nicTextField)) {
+                nicLabel.setStyle("-fx-text-fill: #00B605 ");
+                nicLabel.setText("NIC Available to use");
+            } else {
+                nicLabel.setStyle("-fx-text-fill: #ff0000 ");
+                nicLabel.setText("Invalid NIC!!");
+            }
+
+        }
+    }
+
+    public static void checkEmailAvailability(TextField emailTextField, Label emailLabel, ArrayList<String> emailList) {
+
+        if (emailTextField.getText().isEmpty()) {
+            emailLabel.setStyle("-fx-text-fill: #ff0000 ");
+            emailLabel.setText("Email Cannot be empty");
+        } else if (UtilityMethod.checkDataAvailability(emailList, emailTextField.getText().toLowerCase())) {
+            emailLabel.setStyle("-fx-text-fill: #ff0000 ");
+            emailLabel.setText("Email Already Available!!");
+        } else {
+            if (DataValidation.isValidEmail(emailTextField.getText())) {
+                emailLabel.setStyle("-fx-text-fill: #00B605 ");
+                emailLabel.setText("Email Available to use");
+            } else {
+                emailLabel.setStyle("-fx-text-fill: #ff0000 ");
+                emailLabel.setText("Invalid Email!!");
+            }
+
+        }
+    }
 }
