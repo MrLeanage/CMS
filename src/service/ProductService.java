@@ -37,11 +37,11 @@ public class ProductService {
         return productObservableList;
     }
 
-    public Product loadSpecificProduct(String mID) {
+    public Product loadSpecificProduct(String pID) {
         Product product = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(ProductQuery.LOAD_SPECIFIC_PRODUCT_DATA);
-            preparedStatement.setInt(1, UtilityMethod.seperateID(mID));
+            preparedStatement.setInt(1, UtilityMethod.seperateID(pID));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 product = new Product(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getDouble(5), resultSet.getString(6));
@@ -60,6 +60,26 @@ public class ProductService {
             psSupply.setInt(3, product.getpQuantity());
             psSupply.setDouble(4, product.getpPrice());
             psSupply.setString(5, product.getpAvailability());
+            psSupply.execute();
+
+            return true;
+
+        } catch (SQLException ex) {
+            AlertPopUp.sqlQueryError(ex);
+            return false;
+        }
+    }
+
+    public boolean updateProductData(Product product){
+        try {
+            PreparedStatement psSupply = connection.prepareStatement(ProductQuery.UPDATE_PRODUCT_DATA);
+            psSupply.setString(1, product.getpName());
+            psSupply.setString(2, product.getpInfo());
+            psSupply.setInt(3, product.getpQuantity());
+            psSupply.setDouble(4, product.getpPrice());
+            psSupply.setString(5, product.getpAvailability());
+
+            psSupply.setInt(6, UtilityMethod.seperateID(product.getpID()));
             psSupply.execute();
 
             return true;
@@ -95,6 +115,38 @@ public class ProductService {
                      //return if filter matches data
                      return true;
                  } else {
+                    //have no matchings
+                    return false;
+                }
+            });
+        });
+        //wrapping the FilteredList in a SortedList
+        SortedList<Product> sortedData = new SortedList<>(filteredData);
+        return sortedData;
+    }
+
+    public SortedList<Product> searchCartProductTable(ObservableList<Product> searchData,  TextField searchTextField) {
+
+        //Wrap the ObservableList in a filtered List (initially display all data)
+        //ObservableList<Product> productData = loadAllProductData();
+        FilteredList<Product> filteredData = new FilteredList<>(searchData, b -> true);
+
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(product -> {
+                //if filter text is empty display all data
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                //comparing search text with table columns one by one
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (product.getpID().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    //return if filter matches data
+                    return true;
+                } else if (product.getpName().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    //return if filter matches data
+                    return true;
+                } else {
                     //have no matchings
                     return false;
                 }

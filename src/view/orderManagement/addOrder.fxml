@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="720.0" stylesheets="@../../lib/css/system.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.orderManagement.AddOrderController">
+    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#40404000" height="490.0" layoutX="23.0" layoutY="403.0" stroke="#573e00" strokeType="INSIDE" strokeWidth="3.0" width="710.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+        <Label layoutX="15.0" layoutY="318.0" text="Order Notes :" />
+        <TextArea fx:id="cNoteTextArea" layoutX="134.0" layoutY="328.0" prefHeight="43.0" prefWidth="280.0" text="Not Specified" />
+        <Button layoutX="306.0" layoutY="284.0" mnemonicParsing="false" onAction="#browseCustomer" prefHeight="25.0" prefWidth="109.0" text="Browse Customer" />
+        <Spinner fx:id="pQTYSpinner" layoutX="569.0" layoutY="335.0" prefHeight="25.0" prefWidth="136.0" AnchorPane.rightAnchor="15.0" />
+        <Label layoutX="15.0" layoutY="288.0" text="Customer NIC/Name :" AnchorPane.leftAnchor="15.0" />
+        <TextField fx:id="cNameTextField" editable="false" layoutX="209.0" layoutY="284.0" prefHeight="25.0" prefWidth="95.0" promptText="Name" />
+        <Label layoutX="15.0" layoutY="384.0" text="Delivery Status :" AnchorPane.leftAnchor="15.0" />
+        <ChoiceBox fx:id="statusChoiceBox" layoutX="134.0" layoutY="389.0" prefHeight="25.0" prefWidth="280.0" />
+      <TextField fx:id="cNICTextField" editable="false" layoutX="135.0" layoutY="284.0" prefHeight="25.0" prefWidth="72.0" promptText="NIC" />
+      <TableView fx:id="cartTable" layoutX="20.0" layoutY="82.0" prefHeight="196.0" prefWidth="405.0" AnchorPane.leftAnchor="15.0">
+        <columns>
+          <TableColumn fx:id="indexColumn" prefWidth="25.0" text="#" />
+          <TableColumn fx:id="itemIDColumn" prefWidth="48.0" text="ID" />
+            <TableColumn fx:id="itemNameColumn" prefWidth="105.0" text="Name" />
+            <TableColumn fx:id="itemQTYColumn" prefWidth="33.0" text="QTY" />
+            <TableColumn fx:id="itemPriceColumn" prefWidth="61.0" text="Unit Price" />
+            <TableColumn fx:id="itemTotalColumn" prefWidth="67.0" text="Total Price" />
+            <TableColumn fx:id="itemActionColumn" prefWidth="67.0" text="Action" />
+        </columns>
+      </TableView>
+      <TextField fx:id="searchTextField" layoutX="426.0" layoutY="54.0" prefHeight="25.0" prefWidth="280.0" promptText="Search" AnchorPane.rightAnchor="15.0" />
+      <TableView fx:id="productTable" layoutX="425.0" layoutY="82.0" onMouseClicked="#setSelectedProductDataToFields" prefHeight="163.0" prefWidth="280.0" AnchorPane.rightAnchor="15.0">
+        <columns>
+          <TableColumn fx:id="pIDColumn" prefWidth="52.0" text="ID" />
+          <TableColumn fx:id="pNameColumn" prefWidth="120.0" text="Product Name" />
+            <TableColumn fx:id="pAvailableQTYColumn" prefWidth="42.0" text="A/QTY" />
+            <TableColumn fx:id="pUPriceColumn" prefWidth="65.0" text="U/Price" />
+        </columns>
+      </TableView>
+      <Label layoutX="434.0" layoutY="339.0" text="Quantity :" AnchorPane.leftAnchor="430.0" />
+      <Label layoutX="429.0" layoutY="253.0" text="Selected Product ID: " AnchorPane.leftAnchor="430.0" />
+      <TextField fx:id="pIDTextField" editable="false" layoutX="568.0" layoutY="249.0" prefHeight="25.0" prefWidth="136.0" />
+      <Label layoutX="431.0" layoutY="283.0" text="Selected Product Name: " AnchorPane.leftAnchor="430.0" />
+      <TextField fx:id="pNameTextField" editable="false" layoutX="569.0" layoutY="279.0" prefHeight="25.0" prefWidth="136.0" AnchorPane.rightAnchor="15.0" />
+      <JFXButton fx:id="addButton1" layoutX="429.0" layoutY="383.0" onAction="#addItemToCart" prefHeight="30.0" prefWidth="136.0" style="-fx-background-color: #ffef00;" text="ADD TO CART" AnchorPane.topAnchor="383.0">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="568.0" layoutY="383.0" onAction="#clearProductFields" prefHeight="30.0" prefWidth="136.0" style="-fx-background-color: #573e00;" text="CLEAR SELECTION" textFill="WHITE" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="383.0">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="productValidationLabel" layoutX="432.0" layoutY="361.0" prefHeight="17.0" prefWidth="273.0" textFill="RED" AnchorPane.leftAnchor="430.0" />
+      <Label layoutX="196.0" layoutY="14.0" text="ORDER MANAGEMENT - ADD ORDER" textFill="#2e0000">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="53.0" text="ORDER CART" textFill="#2e0000">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="67.0" layoutX="13.0" layoutY="419.0" stroke="BLACK" strokeType="INSIDE" width="405.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="67.0" layoutX="296.0" layoutY="419.0" stroke="BLACK" strokeType="INSIDE" width="280.0" AnchorPane.rightAnchor="15.0" />
+        <JFXButton fx:id="addButton" layoutX="435.0" layoutY="431.0" onAction="#addOrder" prefHeight="45.0" prefWidth="123.0" style="-fx-background-color: #ffef00;" text="ADD ORDER">
+            <font>
+                <Font name="Calibri Bold" size="13.0" />
+            </font>
+        </JFXButton>
+      <JFXButton layoutX="211.0" layoutY="452.0" onAction="#clearCart" prefHeight="28.0" prefWidth="202.0" style="-fx-background-color: #a70000;" text="CLEAR CART" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="customerValidationLabel" layoutX="134.0" layoutY="310.0" prefHeight="17.0" prefWidth="280.0" textFill="RED" />
+      <Label fx:id="cNoteValidationLabel" layoutX="134.0" layoutY="371.0" prefHeight="17.0" prefWidth="280.0" textFill="RED" />
+      <Label layoutX="21.0" layoutY="431.0" text="Order Date:" textFill="WHITE" />
+      <Label layoutX="21.0" layoutY="454.0" text="Order Item Units:" textFill="WHITE" />
+      <Label layoutX="213.0" layoutY="422.0" text="TOTAL" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <TextField fx:id="oDateTextField" editable="false" layoutX="116.0" layoutY="427.0" prefHeight="25.0" prefWidth="91.0" promptText="Date">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="oUnitTextField" editable="false" layoutX="116.0" layoutY="454.0" prefHeight="25.0" prefWidth="91.0" promptText="UNITS">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <Label fx:id="cartTotalLabel" alignment="CENTER_RIGHT" layoutX="288.0" layoutY="423.0" prefHeight="31.0" prefWidth="123.0" text="TOTAL" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView fill="#573e00" glyphName="SEARCH" layoutX="687.0" layoutY="72.0" />
+      <Label layoutX="432.0" layoutY="312.0" text="Unit Price:" AnchorPane.leftAnchor="430.0" />
+      <TextField fx:id="pUnitPriceTextField" editable="false" layoutX="570.0" layoutY="308.0" prefHeight="25.0" prefWidth="136.0" />
+      <JFXButton layoutX="565.0" layoutY="429.0" onAction="#clearCartFields" prefHeight="20.0" prefWidth="131.0" style="-fx-background-color: #573e00;" text="CLEAR FIELDS" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="11.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="cancelButton" layoutX="566.0" layoutY="454.0" onAction="#closeStage" prefHeight="21.0" prefWidth="131.0" style="-fx-background-color: #a70000;" text="CANCEL" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="11.0" />
+         </font>
+      </JFXButton>
+    </children>
+</AnchorPane>

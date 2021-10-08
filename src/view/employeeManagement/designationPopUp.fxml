@@ -69,7 +69,7 @@
       <Label layoutX="14.0" layoutY="373.0" text="Designation Title:" />
       <Label layoutX="360.0" layoutY="373.0" text="Designation Description:" AnchorPane.leftAnchor="360.0" />
       <Label layoutX="15.0" layoutY="426.0" text="Designation Status:" />
-      <TextField fx:id="dIDTextField" layoutX="150.0" layoutY="340.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />
+      <TextField fx:id="dIDTextField" editable="false" layoutX="150.0" layoutY="340.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />
       <TextField fx:id="dTitleTextField" layoutX="150.0" layoutY="374.0" onKeyReleased="#checkDesignationTitleAvailability" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />
       <TextArea fx:id="dDescriptionTextArea" layoutX="505.0" layoutY="374.0" prefHeight="47.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
       <ChoiceBox fx:id="dStatusChoiceBox" layoutX="150.0" layoutY="422.0" prefWidth="200.0" AnchorPane.leftAnchor="150.0" />

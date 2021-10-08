@@ -265,7 +265,7 @@ public class UpdateSupplierController implements Initializable {
     private void checkEmailAvailability() {
 
         for(Supplier supplier : supplierObservableList){
-            if((("0"+supplier.getEmail()).equals(emailTextField.getText()) && supplier.getId().equals(selectedSupplier.getId()))){
+            if(((supplier.getEmail()).equals(emailTextField.getText()) && supplier.getId().equals(selectedSupplier.getId()))){
                 emailLabel.setText("");
             }else{
                 DataValidation.checkEmailAvailability(emailTextField, emailLabel, emailList);

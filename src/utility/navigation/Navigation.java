@@ -96,7 +96,7 @@ public class Navigation {
 
     public void createMenu(AnchorPane baseAnchorPane) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/productManagement/create.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/productManagement/addOrder.fxml"));
             baseAnchorPane.getChildren().setAll(pane);
         } catch (IOException ex) {
             AlertPopUp.generalError(ex);

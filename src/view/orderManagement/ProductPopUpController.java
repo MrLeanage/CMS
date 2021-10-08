@@ -14,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -130,12 +129,12 @@ public class ProductPopUpController implements Initializable {
     @FXML
     void addSelectedMenu(ActionEvent event) {
         if (selectedProduct != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("update.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("updateOrder.fxml"));
             try {
                 Parent root = (Parent) loader.load();
-                Update update = loader.getController();
+                UpdateOrderController updateOrderController = loader.getController();
 
-                update.setProduct(selectedProduct);
+               // updateOrderController.setProduct(selectedProduct);
                 selectedProduct = null;
                 closeStage();
             } catch (IOException exception) {

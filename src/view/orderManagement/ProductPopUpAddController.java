@@ -135,12 +135,12 @@ public class ProductPopUpAddController implements Initializable {
     @FXML
     void addSelectedMenu(ActionEvent event) {
         if (selectedProduct != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("create.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addOrder.fxml"));
             try {
                 Parent root = (Parent) loader.load();
-                Create create = loader.getController();
+                AddOrderController addOrderController = loader.getController();
 
-                create.setProduct(selectedProduct);
+                //addOrderController.setProduct(selectedProduct);
                 selectedProduct = null;
                 closeStage();
             } catch (IOException exception) {

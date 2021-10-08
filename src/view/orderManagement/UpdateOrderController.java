@@ -1,8 +1,8 @@
 package view.orderManagement;
 
 
+import bean.Customer;
 import bean.Order;
-import bean.Product;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import service.CustomerService;
 import service.OrderService;
 import utility.dataHandler.DataValidation;
 import utility.popUp.AlertPopUp;
@@ -24,62 +25,62 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Update implements Initializable {
+public class UpdateOrderController implements Initializable {
 
     @FXML
-    private TextField productIDTextField;
+    private TextField nicTextField;
 
     @FXML
-    private Label productIDLabel;
+    private Label customerValidationLabel;
 
     @FXML
     private TextArea noteTextArea;
-
-
-    @FXML
-    private Spinner<Integer> quantitySpinner;
 
     @FXML
     private TextField customerNameTextField;
 
     @FXML
-    private Label customerNameLabel;
+    private Label noteLabel;
 
     @FXML
-    private Label noteLabel;
+    private ChoiceBox<String> statusChoiceBox;
+
+    @FXML
+    private JFXButton updateButton;
 
     @FXML
     private JFXButton cancelButton;
 
     @FXML
-    private ChoiceBox<String> statusChoiceBox;
-
-    public static Product selectedProduct = null;
+    private TextField dateTextField;
 
     private static Order selectedOrder = null;
 
+    private static Customer selectedCustomer = null;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SpinnerValueFactory<Integer> quantityValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
-        quantitySpinner.setValueFactory(quantityValueFactory);
         ObservableList<String> statusList = FXCollections.observableArrayList("Pending", "Processing", "Delivered");
-        statusChoiceBox.setValue("Pending");
-        statusChoiceBox.setItems(statusList);
-        productIDTextField.setText(selectedOrder.getoProductID());
-        customerNameTextField.setText(selectedOrder.getoCustomerName());
-        quantitySpinner.getValueFactory().setValue(selectedOrder.getoQuantity());
+
+        CustomerService customerService = new CustomerService();
+        selectedCustomer = customerService.loadSpecificCustomer(selectedOrder.getoCID());
+
+        nicTextField.setText(selectedCustomer.getcNIC());
+        customerNameTextField.setText(selectedOrder.getoCName());
         noteTextArea.setText(selectedOrder.getoNotes());
+        dateTextField.setText(selectedOrder.getoDate());
         statusChoiceBox.setValue(selectedOrder.getoStatus());
+        statusChoiceBox.setItems(statusList);
     }
 
     @FXML
     public static void setData(Order order){
-        Update.selectedOrder = order;
+        UpdateOrderController.selectedOrder = order;
     }
 
     @FXML
     public static Order getData(){
-        return Update.selectedOrder;
+        return UpdateOrderController.selectedOrder;
     }
 
     @FXML
@@ -90,10 +91,9 @@ public class Update implements Initializable {
             OrderService orderService = new OrderService();
 
             order.setoID(selectedOrder.getoID());
-            order.setoProductID(productIDTextField.getText());
-            order.setoCustomerName(customerNameTextField.getText());
-            order.setoQuantity(quantitySpinner.getValue());
+            order.setoCID(selectedCustomer.getcID());
             order.setoNotes(noteTextArea.getText());
+            order.setoDate(dateTextField.getText());
             order.setoStatus(statusChoiceBox.getValue());
 
             if (orderService.updateOrderData(order)) {
@@ -111,56 +111,44 @@ public class Update implements Initializable {
                 }
             } else
                 AlertPopUp.updateFailed("Order");
-        } else
-            orderValidationMessage();
+        }
     }
     @FXML
     void clearFields(ActionEvent event) {
-        productIDTextField.setText("");
-        customerNameTextField.setText("");
-        noteTextArea.setText("");
+        nicTextField.setText(selectedCustomer.getcNIC());
+        customerNameTextField.setText(selectedOrder.getoCName());
+        noteTextArea.setText(selectedOrder.getoNotes());
+        dateTextField.setText(selectedOrder.getoDate());
+        statusChoiceBox.setValue(selectedOrder.getoStatus());
         clearLabels();
-        selectedOrder = null;
     }
 
     private void clearLabels() {
-        productIDLabel.setText("");
-        customerNameLabel.setText("");
+        customerValidationLabel.setText("");
         noteLabel.setText("");
     }
 
     private boolean orderValidation() {
-        return DataValidation.TextFieldNotEmpty(productIDTextField.getText())
-                && DataValidation.TextFieldNotEmpty(customerNameTextField.getText())
+        if(!(DataValidation.TextFieldNotEmpty(nicTextField.getText())
+                && DataValidation.isValidMaximumLength(noteTextArea.getText(), 400))){
+            DataValidation.TextFieldNotEmpty(nicTextField.getText(), customerValidationLabel, "Please Select a Customer");
 
-                && DataValidation.isValidMaximumLength(customerNameTextField.getText(), 45)
-                && DataValidation.isValidMaximumLength(noteTextArea.getText(), 400);
-    }
-
-    private void orderValidationMessage() {
-
-        if (!(DataValidation.TextFieldNotEmpty(productIDTextField.getText())
-                && DataValidation.TextFieldNotEmpty(customerNameTextField.getText()))) {
-            DataValidation.TextFieldNotEmpty(productIDTextField.getText(), productIDLabel, "Please Select a Menu!");
-            DataValidation.TextFieldNotEmpty(customerNameTextField.getText(), customerNameLabel, "Customer Name Required!");
-
-        }
-        if (!(DataValidation.isValidMaximumLength(customerNameTextField.getText(), 45)
-                && DataValidation.isValidMaximumLength(noteTextArea.getText(), 400))) {
-
-            DataValidation.isValidMaximumLength(customerNameTextField.getText(), 45, customerNameLabel, "Field Limit 45 Exceeded!");
             DataValidation.isValidMaximumLength(noteTextArea.getText(), 400, noteLabel, "Field Limit 400 Exceeded!");
+            return false;
+        }else{
+            return true;
         }
     }
 
     @FXML
-    private void browseProduct(ActionEvent actionEvent){
+    private void browseCustomer(ActionEvent actionEvent){
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("productPopUp.fxml"));
+        CustomerPopUpController.setData("update");
+        loader.setLocation(getClass().getResource("customerPopUp.fxml"));
         try{
             loader.load();
         }catch (IOException ex){
-            Logger.getLogger(ProductPopUpController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerPopUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Parent p = loader.getRoot();
         Stage stage = new Stage();
@@ -170,12 +158,15 @@ public class Update implements Initializable {
 
         stage.showAndWait();
 
-        if(selectedProduct != null)
-            productIDTextField.setText(selectedProduct.getpID());
+        if(selectedCustomer != null){
+            nicTextField.setText(selectedCustomer.getcNIC());
+            customerNameTextField.setText(selectedCustomer.getcName());
+        }
+
     }
 
-    public void setProduct(Product product){
-        selectedProduct = product;
+    public void setCustomer(Customer customer){
+        selectedCustomer = customer;
     }
     private void closeStage(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();

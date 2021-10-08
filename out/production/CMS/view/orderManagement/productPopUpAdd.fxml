@@ -26,7 +26,7 @@
       <FontAwesomeIconView fill="#573e00" glyphName="SEARCH" layoutX="702.0" layoutY="82.0" />
       <HBox alignment="CENTER_RIGHT" layoutX="427.0" layoutY="485.0" prefHeight="34.0" prefWidth="298.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="427.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="500.0">
          <children>
-            <JFXButton onAction="#addSelectedMenu" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #217500;" text="UPDATE SELECTED MENU" textFill="WHITE">
+            <JFXButton onAction="#addSelectedMenu" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #217500;" text="ADD SELECTED MENU" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="13.0" />
                </font>

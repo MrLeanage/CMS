@@ -226,7 +226,7 @@ public class DesignationPopUpController implements Initializable {
                         } else
                             AlertPopUp.updateFailed("Designation");
                     }else
-                        AlertPopUp.failMessage("Update Failed", "You cannot Update Status of In Use Designation Title");
+                        AlertPopUp.failMessage("UpdateOrderController Failed", "You cannot UpdateOrderController Status of In Use Designation Title");
                 }
             }
         }else {

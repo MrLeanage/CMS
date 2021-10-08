@@ -55,10 +55,10 @@
 			<![CDATA[]]>
 		</queryString>
 		<field name="oID" class="java.lang.String"/>
-		<field name="oCustomerName" class="java.lang.String"/>
-		<field name="oMenuName" class="java.lang.String"/>
+		<field name="oCName" class="java.lang.String"/>
+		<field name="totalPrice" class="java.lang.String"/>
 		<field name="oNotes" class="java.lang.String"/>
-		<field name="oQuantity" class="java.lang.Integer"/>
+		<field name="oDate" class="java.lang.String"/>
 		<field name="oStatus" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="deliveryStatus" class="java.lang.String"/>
@@ -121,18 +121,18 @@
 					<datasetRun subDataset="SupplierDataSet" uuid="ed9f1dbb-1ced-4926-a970-c2e8dddf0c01">
 						<dataSourceExpression><![CDATA[$P{orderList}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="50" uuid="f3ee5e5b-826f-4829-bb07-26dca088c465">
+					<jr:column width="60" uuid="f3ee5e5b-826f-4829-bb07-26dca088c465">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" forecolor="#FFFFFF" uuid="35e598dc-2574-4c84-851c-2a2c389acbe2"/>
+								<reportElement x="0" y="0" width="60" height="30" forecolor="#FFFFFF" uuid="35e598dc-2574-4c84-851c-2a2c389acbe2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[ID]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="4341377c-e248-464f-8958-6edbca760018"/>
+								<reportElement x="0" y="0" width="60" height="30" uuid="4341377c-e248-464f-8958-6edbca760018"/>
 								<box leftPadding="5" rightPadding="5"/>
 								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{oID}]]></textFieldExpression>
@@ -153,43 +153,43 @@
 								<reportElement x="0" y="0" width="120" height="30" uuid="60e34993-64e2-4653-af70-78f33f4dc09c"/>
 								<box leftPadding="5" rightPadding="5"/>
 								<textElement verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{oCustomerName}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{oCName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110" uuid="1ee684cd-91aa-49e2-831c-014212935734">
+					<jr:column width="130" uuid="1ee684cd-91aa-49e2-831c-014212935734">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30" forecolor="#FFFFFF" uuid="1d5da3e2-b913-444e-8846-d52e7c73bf5f"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[MENU NAME]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="Table_TD" height="30">
-							<textField>
-								<reportElement x="0" y="0" width="110" height="30" uuid="484098ca-696d-450f-8797-993128a03f0f"/>
-								<box leftPadding="5" rightPadding="5"/>
-								<textElement verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{oMenuName}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="120" uuid="6428b8ae-18a2-4ee9-aa2e-43e69cbbd791">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="120" height="30" forecolor="#FFFFFF" uuid="7bce65e8-9c06-49fd-9840-2948c7172b93"/>
+								<reportElement x="0" y="0" width="130" height="30" forecolor="#FFFFFF" uuid="1d5da3e2-b913-444e-8846-d52e7c73bf5f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[ORDER NOTES]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="120" height="30" uuid="cbf4296f-aa4b-4374-bea0-23f3f974577d"/>
+								<reportElement x="0" y="0" width="130" height="30" uuid="484098ca-696d-450f-8797-993128a03f0f"/>
 								<box leftPadding="5" rightPadding="5"/>
 								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{oNotes}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="6428b8ae-18a2-4ee9-aa2e-43e69cbbd791">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" forecolor="#FFFFFF" uuid="7bce65e8-9c06-49fd-9840-2948c7172b93"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[TOTAL PRICE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="cbf4296f-aa4b-4374-bea0-23f3f974577d"/>
+								<box leftPadding="5" rightPadding="5"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{totalPrice}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -199,7 +199,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" forecolor="#FFFFFF" uuid="e6eb58c0-7077-4e56-a36b-ac19640ce632"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[QTY]]></text>
+								<text><![CDATA[DATE]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -207,7 +207,7 @@
 								<reportElement x="0" y="0" width="70" height="30" uuid="6c7c0841-71d9-4a25-a975-9c73d0fa07b4"/>
 								<box leftPadding="5" rightPadding="5"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{oQuantity} + " QTY"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{oDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

@@ -21,18 +21,18 @@
             <Font name="Calibri Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="orderTable" layoutX="30.0" layoutY="95.0" onMouseClicked="#setSelectedOrderDataToFields" prefHeight="350.0" prefWidth="690.0" AnchorPane.rightAnchor="30.0">
+      <TableView fx:id="orderTable" layoutX="30.0" layoutY="141.0" onMouseClicked="#setSelectedOrderDataToFields" prefHeight="304.0" prefWidth="690.0" AnchorPane.rightAnchor="30.0">
          <columns>
             <TableColumn fx:id="IDColumn" prefWidth="64.0" text="Order ID" />
             <TableColumn fx:id="customerNameColumn" prefWidth="142.0" text="Customer Name" />
-            <TableColumn fx:id="menuNameColumn" prefWidth="143.0" text="Menu Name" />
             <TableColumn fx:id="notesColumn" prefWidth="176.0" text="Order Notes" />
-            <TableColumn fx:id="quantityColumn" prefWidth="71.0" text="Quantity" />
+            <TableColumn fx:id="totalPriceColumn" prefWidth="143.0" text="Total Price" />
+            <TableColumn fx:id="dateColumn" prefWidth="71.0" text="Date" />
             <TableColumn fx:id="statusColumn" prefWidth="93.0" text="Delivery Status" />
          </columns>
       </TableView>
-      <TextField fx:id="searchTextField" layoutX="30.0" layoutY="65.0" prefHeight="25.0" prefWidth="690.0" />
-      <FontAwesomeIconView fill="#573e00" glyphName="SEARCH" layoutX="702.0" layoutY="82.0" />
+      <TextField fx:id="searchTextField" layoutX="30.0" layoutY="103.0" prefHeight="25.0" prefWidth="690.0" />
+      <FontAwesomeIconView fill="#573e00" glyphName="SEARCH" layoutX="702.0" layoutY="120.0" />
       <HBox alignment="CENTER_RIGHT" layoutX="241.0" layoutY="485.0" prefHeight="34.0" prefWidth="220.0" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="500.0">
          <children>
             <JFXButton onAction="#deleteOrder" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #a70000;" text="DELETE" textFill="WHITE">
@@ -74,9 +74,14 @@
          </font>
       </JFXButton>
       <Label fx:id="orderQuotationLabel" layoutX="30.0" layoutY="509.0" text="Order Quotation :" visible="false" />
-      <Label fx:id="supplierReportLabel1" layoutX="307.0" layoutY="36.0" text="Order Delivery  Report: :" />
-      <ChoiceBox fx:id="deliveryStatusChoiceBox" layoutX="439.0" layoutY="32.0" prefHeight="25.0" prefWidth="113.0" />
-      <JFXButton layoutX="558.0" layoutY="29.0" onAction="#getOrderDeliveryReport" prefHeight="30.0" prefWidth="163.0" style="-fx-background-color: #01579b;" text="PRINT DELIVERY REPORT" textFill="WHITE">
+      <Label fx:id="supplierReportLabel1" layoutX="266.0" layoutY="75.0" prefHeight="21.0" prefWidth="160.0" text="Order Delivery  Report: :" />
+      <ChoiceBox fx:id="deliveryStatusChoiceBox" layoutX="439.0" layoutY="68.0" prefHeight="25.0" prefWidth="113.0" />
+      <JFXButton layoutX="558.0" layoutY="67.0" onAction="#getOrderDeliveryReport" prefHeight="30.0" prefWidth="163.0" style="-fx-background-color: #01579b;" text="PRINT DELIVERY REPORT" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="266.0" layoutY="29.0" onAction="#manageCustomer" prefHeight="30.0" prefWidth="455.0" style="-fx-background-color: #573e00;" text="MANAGE CUSTOMERS" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="13.0" />
          </font>

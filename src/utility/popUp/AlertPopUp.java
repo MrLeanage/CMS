@@ -147,7 +147,7 @@ public class AlertPopUp {
         Alert successMsg = new Alert(Alert.AlertType.INFORMATION);
         successMsg.setTitle("Please Select..");
         successMsg.setHeaderText(null);
-        successMsg.setContentText("Please Select a " + text + " record to Update");
+        successMsg.setContentText("Please Select a " + text + " record to UpdateOrderController");
         successMsg.showAndWait();
     }
 

@@ -1,9 +1,6 @@
 package utility.dataHandler;
 
-import bean.Employee;
-import bean.Order;
-import bean.Product;
-import bean.Supplier;
+import bean.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import net.sf.jasperreports.engine.*;
@@ -11,10 +8,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JRViewer;
-import service.EmployeeService;
-import service.ProductService;
-import service.OrderService;
-import service.SupplierService;
+import service.*;
 import utility.popUp.AlertPopUp;
 
 import javax.swing.*;
@@ -24,20 +18,20 @@ import java.util.HashMap;
 public class PrintReport extends JFrame {
 
   public void printOrderQuotation(Order order){
-    ProductService productService = new ProductService();
-    Product product = productService.loadSpecificProduct(order.getoProductID());
-
+    CustomerService customerService = new CustomerService();
+    Customer customer = customerService.loadSpecificCustomer(order.getoCID());
+    ObservableList<CartItem> cartItemObservableList = FXCollections.observableArrayList(order.getoItemList());
+    JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(cartItemObservableList);
     try {
       HashMap parameter = new HashMap();
       parameter.put("orderID", order.getoID());
-      parameter.put("itemID", product.getpID());
-      parameter.put("itemName", product.getpName());
-      parameter.put("itemInfo", product.getpInfo());
-      parameter.put("unitPrice", product.getpPrice());
-      parameter.put("orderQuantity", order.getoQuantity());
-      parameter.put("orderNotes", order.getoNotes());
       parameter.put("deliveryStatus", order.getoStatus());
-      parameter.put("customerName", order.getoCustomerName());
+      parameter.put("customerName", customer.getcName());
+      parameter.put("customerNIC", customer.getcNIC());
+      parameter.put("orderDate", order.getoDate());
+      parameter.put("orderNotes", order.getoNotes());
+      parameter.put("itemList", jrBeanCollectionDataSource);
+      parameter.put("totalPrice", order.getTotalPrice());
 
       JasperDesign jd =
           JRXmlLoader.load(

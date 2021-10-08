@@ -40,13 +40,13 @@ public class OrderDetailController implements Initializable {
     private TableColumn<Order, String> customerNameColumn;
 
     @FXML
-    private TableColumn<Order, String> menuNameColumn;
+    private TableColumn<Order, String> totalPriceColumn;
 
     @FXML
     private TableColumn<Order, String> notesColumn;
 
     @FXML
-    private TableColumn<Order, Integer> quantityColumn;
+    private TableColumn<Order, String> dateColumn;
 
     @FXML
     private TableColumn<Order, String> statusColumn;
@@ -110,11 +110,20 @@ public class OrderDetailController implements Initializable {
         OrderService orderService = new OrderService();
         ObservableList<Order> orderObservableList = orderService.loadAllOrderData();
 
+        /**
+         * private String oID = null;
+         *     private String oCID = null;
+         *     private String oCName = null;
+         *     private String oNotes = null;
+         *     private LinkedList<CartItem> oItemList = new LinkedList<>();
+         *     private String oDate = null;
+         *     private String oStatus = null;
+         */
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("oID"));
-        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("oCustomerName"));
-        menuNameColumn.setCellValueFactory(new PropertyValueFactory<>("oMenuName"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("oCName"));
         notesColumn.setCellValueFactory(new PropertyValueFactory<>("oNotes"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("oQuantity"));
+        totalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("oDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("oStatus"));
 
         orderTable.setItems(null);
@@ -138,19 +147,21 @@ public class OrderDetailController implements Initializable {
     @FXML
     void addOrder(ActionEvent event) throws IOException {
         Stage primaryStage= new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/create.fxml"));
-        Scene scene = new  Scene(root, 650, 600);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/addOrder.fxml"));
+        Scene scene = new  Scene(root, 720, 500);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.sizeToScene();
-        primaryStage.show();
+        primaryStage.showAndWait();
+
+        loadData();
     }
 
     @FXML
     void updateOrder(ActionEvent event) throws IOException {
         if(selectedOrder != null){
             Stage updateStage= new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/update.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/updateOrder.fxml"));
             Scene scene = new  Scene(root, 720, 350);
             updateStage.setScene(scene);
             updateStage.setResizable(false);
@@ -199,9 +210,9 @@ public class OrderDetailController implements Initializable {
             selectedOrder = orderTable.getSelectionModel().getSelectedItem();
 
             orderIDTextBox.setText(selectedOrder.getoID());
-            customerNameTextBox.setText(selectedOrder.getoCustomerName());
+            customerNameTextBox.setText(selectedOrder.getoCName());
 
-            Update.setData(selectedOrder);//fine
+            UpdateOrderController.setData(selectedOrder);//fine
         } catch (NullPointerException exception) {
 
         }
@@ -250,5 +261,18 @@ public class OrderDetailController implements Initializable {
     private void getOrderDeliveryReport(ActionEvent event){
         PrintReport printReport = new PrintReport();
         printReport.printOrderDeliveryReport(deliveryStatusChoiceBox.getValue());
+    }
+
+    @FXML
+    void manageCustomer(ActionEvent event) throws IOException{
+        Stage primaryStage= new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/orderManagement/customerManagementPopUp.fxml"));
+        Scene scene = new  Scene(root, 720, 500);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
+        primaryStage.showAndWait();
+
+        setInitData();
     }
 }
